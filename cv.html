@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curriculum Vitae | Farhan Chandra Aliviano</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Space+Grotesk:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gold: #ffd700;
+            --gold-glow: rgba(255, 215, 0, 0.4);
+            --magenta: #ff00ff;
+            --cyber-dark: #050508;
+        }
+
+        body {
+            background-color: var(--cyber-dark);
+            color: #d1d1d1;
+            font-family: 'Space Grotesk', sans-serif;
+            overflow-x: hidden;
+            /* Latar belakang grid digital halus */
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(255, 215, 0, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(255, 0, 255, 0.05) 0%, transparent 40%),
+                linear-gradient(rgba(255, 215, 0, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 215, 0, 0.02) 1px, transparent 1px);
+            background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
+            background-attachment: fixed;
+        }
+
+        .font-baroque { font-family: 'Cinzel Decorative', cursive; }
+
+        /* Jaringan Partikel */
+        #particles-js {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* Wadah Kaca (Glass Container) */
+        .cv-container {
+            background: rgba(15, 15, 22, 0.6);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 215, 0, 0.15);
+            box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.8), inset 0 0 20px rgba(255, 215, 0, 0.05);
+            position: relative;
+        }
+
+        /* Ornamen Sudut (Corner Decor) */
+        .corner-ornament {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            fill: var(--gold);
+            opacity: 0.5;
+            z-index: 20;
+            pointer-events: none;
+            filter: drop-shadow(0 0 5px var(--gold-glow));
+        }
+        .co-tl { top: -2px; left: -2px; }
+        .co-tr { top: -2px; right: -2px; transform: rotate(90deg); }
+        .co-bl { bottom: -2px; left: -2px; transform: rotate(-90deg); }
+        .co-br { bottom: -2px; right: -2px; transform: rotate(180deg); }
+
+        /* Watermark Latar Belakang Container */
+        .watermark-bg {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 35rem;
+            color: var(--gold);
+            opacity: 0.02;
+            pointer-events: none;
+            z-index: 0;
+            user-select: none;
+        }
+
+        /* Logika Timeline */
+        .timeline-line {
+            position: absolute;
+            left: 0; top: 0; bottom: 0; width: 2px;
+            background: linear-gradient(to bottom, var(--gold), transparent);
+            box-shadow: 0 0 5px var(--gold-glow);
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: -5px; top: 0; width: 12px; height: 12px;
+            background: var(--gold);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--gold);
+            animation: pulse-glow 2s infinite alternate;
+        }
+
+        @keyframes pulse-glow {
+            0% { box-shadow: 0 0 5px var(--gold), 0 0 10px var(--gold); }
+            100% { box-shadow: 0 0 15px var(--gold), 0 0 20px var(--magenta); }
+        }
+
+        /* Bar Keahlian */
+        .skill-track {
+            height: 6px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            border-radius: 3px;
+            overflow: hidden;
+            box-shadow: inset 0 0 5px rgba(0,0,0,0.5);
+        }
+
+        .skill-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--gold), var(--magenta));
+            box-shadow: 0 0 10px var(--gold-glow);
+            transition: width 1.5s cubic-bezier(0.17, 0.67, 0.83, 0.67);
+        }
+
+        /* Stempel Digital */
+        .digital-stamp {
+            border: 2px double rgba(255, 215, 0, 0.4);
+            color: rgba(255, 215, 0, 0.4);
+            padding: 10px;
+            transform: rotate(-15deg);
+            font-family: 'Cinzel Decorative';
+            font-weight: bold;
+            pointer-events: none;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.1);
+        }
+
+        .section-title {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 2rem;
+            text-shadow: 0 0 10px var(--gold-glow);
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px; left: 0; width: 50px; height: 2px;
+            background: var(--gold);
+            box-shadow: 0 0 5px var(--gold);
+        }
+
+        /* Efek Hover Kartu Pengalaman */
+        .exp-card {
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, rgba(255,255,255,0.02) 0%, rgba(0,0,0,0.4) 100%);
+        }
+        
+        .exp-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%; width: 50%; height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255, 215, 0, 0.1), transparent);
+            transform: skewX(-20deg);
+            transition: 0.5s;
+            pointer-events: none;
+        }
+
+        .exp-card:hover::before { left: 150%; }
+
+        .scan-line {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            opacity: 0;
+            z-index: 5;
+            pointer-events: none;
+        }
+
+        .exp-card:hover .scan-line {
+            animation: scanning 2s linear infinite;
+            opacity: 0.5;
+        }
+
+        @keyframes scanning {
+            0% { top: 0%; }
+            100% { top: 100%; }
+        }
+
+    </style>
+</head>
+<body class="overflow-x-hidden">
+
+    <!-- Latar Belakang Partikel Animasi -->
+    <canvas id="particles-js"></canvas>
+
+    <!-- Simbol SVG untuk Ornamen -->
+    <svg style="display:none;">
+        <symbol id="corner-svg" viewBox="0 0 100 100">
+            <path d="M0,0 L100,0 L100,2 L2,2 L2,100 L0,100 Z" />
+            <circle cx="6" cy="6" r="3" />
+            <rect x="25" y="0" width="30" height="1" />
+            <rect x="0" y="25" width="1" height="30" />
+            <path d="M15,15 L30,15 L30,17 L17,17 L17,30 L15,30 Z" />
+        </symbol>
+    </svg>
+
+    <!-- Navigasi -->
+    <nav class="fixed top-0 w-full z-50 px-8 py-6 flex justify-between items-center backdrop-blur-md border-b border-yellow-500/10">
+        <div class="font-baroque text-2xl text-yellow-500 tracking-tighter drop-shadow-[0_0_8px_rgba(255,215,0,0.5)]">TencentCorp</div>
+        <div class="hidden md:flex space-x-10 text-[10px] uppercase tracking-[0.4em] font-bold">
+            <a href="index.html" class="hover:text-yellow-500 transition">About</a>
+            <a href="cv.html" class="text-yellow-500 border-b border-yellow-500 pb-1">CV</a>
+            <a href="projects.html" class="hover:text-yellow-500 transition">Projects</a>
+            <a href="awards.html" class="hover:text-yellow-500 transition">Awards</a>
+            <a href="reflection.html" class="hover:text-yellow-500 transition">Reflection</a>
+            <a href="contact.html" class="hover:text-yellow-500 transition">Contact</a>
+        </div>
+    </nav>
+
+    <main class="pt-32 pb-20 px-4 md:px-0 relative z-10">
+        <div class="max-w-4xl mx-auto cv-container p-8 md:p-16 rounded-sm">
+            
+            <!-- Ornamen Bingkai Sudut -->
+            <svg class="corner-ornament co-tl"><use href="#corner-svg"/></svg>
+            <svg class="corner-svg corner-ornament co-tr"><use href="#corner-svg"/></svg>
+            <svg class="corner-svg corner-ornament co-bl"><use href="#corner-svg"/></svg>
+            <svg class="corner-svg corner-ornament co-br"><use href="#corner-svg"/></svg>
+
+            <!-- Watermark Tengah Raksasa -->
+            <div class="watermark-bg font-baroque">⚜</div>
+            
+            <!-- Watermark / Stamp Dokumen -->
+            <div class="absolute top-20 right-10 digital-stamp text-center z-10">
+                <div class="text-xs tracking-widest">OFFICIAL ARCHIVE</div>
+                <div class="text-xl mt-1">F.C.A.</div>
+            </div>
+
+            <div class="relative z-10">
+                <!-- Header CV -->
+                <header class="mb-16 border-b border-yellow-500/20 pb-10">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="h-[1px] w-12 bg-magenta-500"></div>
+                        <span class="text-magenta-500 text-[9px] tracking-[0.5em] font-bold uppercase">Personnel Dossier</span>
+                    </div>
+                    <h1 class="text-4xl md:text-6xl font-baroque text-yellow-500 mb-2 drop-shadow-[0_0_10px_rgba(255,215,0,0.3)]">Curriculum Vitae</h1>
+                    <p class="text-white tracking-[0.3em] uppercase text-sm font-bold mt-4">Farhan Chandra Aliviano</p>
+                    <div class="mt-6 flex flex-wrap gap-4 text-[10px] opacity-60 uppercase font-mono tracking-widest">
+                        <span class="border border-white/20 px-2 py-1 bg-black/40">Jakarta, Indonesia</span>
+                        <span class="border border-white/20 px-2 py-1 bg-black/40">farhanchandra38@gmail.com</span>
+                        <span class="border border-white/20 px-2 py-1 bg-black/40">Engineering Specialist</span>
+                        <span class="border border-white/20 px-2 py-1 bg-black/40">Senior Researcher</span>
+                    </div>
+                </header>
+
+                <!-- Education Section -->
+                <section class="mb-16">
+                    <h2 class="text-2xl font-baroque text-white section-title">Education</h2>
+                    <div class="space-y-10 mt-4">
+                        <!-- Edu Item 1 -->
+                        <div class="relative pl-10 group">
+                            <div class="timeline-line"></div>
+                            <div class="timeline-dot group-hover:scale-125 transition-transform"></div>
+                            <span class="text-yellow-500 text-[10px] uppercase tracking-widest font-bold font-mono bg-yellow-500/10 px-2 py-1 rounded">2034 — 2038 (Planning Future)</span>
+                            <h3 class="text-xl font-bold text-white mt-3 group-hover:text-yellow-400 transition-colors">Electrical Engineering and Computer Science (phD)</h3>
+                            <p class="text-magenta-400 text-sm mt-1">Massachusetts Institute of Technology</p>
+                            <p class="mt-3 text-sm opacity-70 leading-relaxed bg-black/30 p-3 border-l border-white/10">Fokus pada penelitian utama sistem energi terbarukan dengan berbasis AI (Photovoltaic cells/solar cells).</p>
+                        </div>
+
+                        <!-- Edu Item 2 -->
+                        <div class="relative pl-10 group">
+                            <div class="timeline-line"></div>
+                            <div class="timeline-dot group-hover:scale-125 transition-transform"></div>
+                            <span class="text-yellow-500 text-[10px] uppercase tracking-widest font-bold font-mono bg-yellow-500/10 px-2 py-1 rounded">2033 — 2034 (Planning Future)</span>
+                            <h3 class="text-xl font-bold text-white mt-3 group-hover:text-yellow-400 transition-colors">Computer Science (S2)</h3>
+                            <p class="text-magenta-400 text-sm mt-1">Massachusetts Institute of Technology</p>
+                            <p class="mt-3 text-sm opacity-70 leading-relaxed bg-black/30 p-3 border-l border-white/10">Aktif dalam kompetisi Robotik dan internship.</p>
+                        </div>
+
+                        <!-- Edu Item 3 -->
+                        <div class="relative pl-10 group">
+                            <div class="timeline-line"></div>
+                            <div class="timeline-dot group-hover:scale-125 transition-transform"></div>
+                            <span class="text-yellow-500 text-[10px] uppercase tracking-widest font-bold font-mono bg-yellow-500/10 px-2 py-1 rounded">2027 — 2031 (Planning Future)</span>
+                            <h3 class="text-xl font-bold text-white mt-3 group-hover:text-yellow-400 transition-colors">Electrical Engineering</h3>
+                            <p class="text-magenta-400 text-sm mt-1">Institut Teknologi Bandung</p>
+                            <p class="mt-3 text-sm opacity-70 leading-relaxed bg-black/30 p-3 border-l border-white/10">Aktif dalam klub Fisika dan klub Badminton.</p>
+                        </div>
+
+                        <!-- Edu Item 4 -->
+                        <div class="relative pl-10 group">
+                            <div class="timeline-line"></div>
+                            <div class="timeline-dot group-hover:scale-125 transition-transform"></div>
+                            <span class="text-yellow-500 text-[10px] uppercase tracking-widest font-bold font-mono bg-yellow-500/10 px-2 py-1 rounded">2024 — 2027</span>
+                            <h3 class="text-xl font-bold text-white mt-3 group-hover:text-yellow-400 transition-colors">Student Grade XI</h3>
+                            <p class="text-magenta-400 text-sm mt-1">SMA Negeri 45 Jakarta</p>
+                            <p class="mt-3 text-sm opacity-70 leading-relaxed bg-black/30 p-3 border-l border-white/10">Aktif dalam klub Paskibra dan Olimpiade Matematika.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Experience Section -->
+                <section class="mb-16">
+                    <h2 class="text-2xl font-baroque text-white section-title">Experience</h2>
+                    <div class="grid gap-6 mt-4">
+                        <!-- Exp Item 1 -->
+                        <div class="exp-card p-6 border border-white/10 rounded-sm hover:border-yellow-500/50 transition duration-500 group">
+                            <div class="scan-line"></div>
+                            <div class="flex flex-col sm:flex-row justify-between items-start mb-4 gap-2">
+                                <h3 class="text-lg font-bold text-white group-hover:text-yellow-400 transition">Photovoltaic Research Intern <span class="text-xs font-normal opacity-50 italic">(Planning)</span></h3>
+                                <span class="text-[9px] font-mono bg-yellow-500/20 border border-yellow-500/30 text-yellow-500 px-3 py-1 uppercase tracking-widest">PART-TIME</span>
+                            </div>
+                            <p class="text-sm opacity-80 leading-relaxed font-light">
+                                Bekerja dalam tim yang terdiri dari 3 orang untuk meningkatkan penyerapan cahaya pada sel surya silikon film tipis dan mengembangkan prosedur standar untuk mensimulasikan kinerja optik sel surya.
+                            </p>
+                        </div>
+
+                        <!-- Exp Item 2 -->
+                        <div class="exp-card p-6 border border-white/10 rounded-sm hover:border-yellow-500/50 transition duration-500 group">
+                            <div class="scan-line"></div>
+                            <div class="flex flex-col sm:flex-row justify-between items-start mb-4 gap-2">
+                                <h3 class="text-lg font-bold text-white group-hover:text-yellow-400 transition">Full Stack Developer Intern <span class="text-xs font-normal opacity-50 italic">(Planning)</span></h3>
+                                <span class="text-[9px] font-mono bg-yellow-500/20 border border-yellow-500/30 text-yellow-500 px-3 py-1 uppercase tracking-widest">PART-TIME</span>
+                            </div>
+                            <p class="text-sm opacity-80 leading-relaxed font-light">
+                                Mengembangkan algoritma kontrol dan perangkat lunak dengan Phyton dan C# untuk secara otomatis menyelaraskan sistem laser yang terhubung dengan serat optik.
+                            </p>
+                        </div>
+
+                        <!-- Exp Item 3 -->
+                        <div class="exp-card p-6 border border-white/10 rounded-sm hover:border-yellow-500/50 transition duration-500 group">
+                            <div class="scan-line"></div>
+                            <div class="flex flex-col sm:flex-row justify-between items-start mb-4 gap-2">
+                                <h3 class="text-lg font-bold text-white group-hover:text-yellow-400 transition">Undergraduate Research Assistant <span class="text-xs font-normal opacity-50 italic">(Planning)</span></h3>
+                                <span class="text-[9px] font-mono bg-yellow-500/20 border border-yellow-500/30 text-yellow-500 px-3 py-1 uppercase tracking-widest">MIT • PROJECT</span>
+                            </div>
+                            <p class="text-sm opacity-80 leading-relaxed font-light">
+                                Mengembangkan metode yang murah dan mudah diterapkan untuk membuat kaca bertekstur submikron.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Skills Section -->
+                <section>
+                    <h2 class="text-2xl font-baroque text-white section-title">Technical Skills</h2>
+                    <div class="grid md:grid-cols-2 gap-x-14 gap-y-8 mt-4 bg-black/20 p-8 rounded-sm border border-white/5">
+                        
+                        <div>
+                            <div class="flex justify-between mb-3 text-[10px] font-bold uppercase tracking-widest">
+                                <span>Renewable Material <span class="opacity-50 lowercase font-normal">(Plan)</span></span>
+                                <span class="text-yellow-500 drop-shadow-[0_0_5px_rgba(255,215,0,0.8)]">90%</span>
+                            </div>
+                            <div class="skill-track">
+                                <div class="skill-fill" style="width: 90%;"></div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between mb-3 text-[10px] font-bold uppercase tracking-widest">
+                                <span>Software Development <span class="opacity-50 lowercase font-normal">(Plan)</span></span>
+                                <span class="text-yellow-500 drop-shadow-[0_0_5px_rgba(255,215,0,0.8)]">85%</span>
+                            </div>
+                            <div class="skill-track">
+                                <div class="skill-fill" style="width: 85%;"></div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between mb-3 text-[10px] font-bold uppercase tracking-widest">
+                                <span>Electrical Simulation <span class="opacity-50 lowercase font-normal">(Plan)</span></span>
+                                <span class="text-yellow-500 drop-shadow-[0_0_5px_rgba(255,215,0,0.8)]">75%</span>
+                            </div>
+                            <div class="skill-track">
+                                <div class="skill-fill" style="width: 75%;"></div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between mb-3 text-[10px] font-bold uppercase tracking-widest">
+                                <span>Front-End Development <span class="opacity-50 lowercase font-normal">(Plan)</span></span>
+                                <span class="text-yellow-500 drop-shadow-[0_0_5px_rgba(255,215,0,0.8)]">80%</span>
+                            </div>
+                            <div class="skill-track">
+                                <div class="skill-fill" style="width: 80%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Footer Dokumen -->
+                <footer class="mt-24 pt-8 border-t border-yellow-500/20 flex justify-between items-center opacity-50 text-[9px] tracking-[0.3em] uppercase font-mono">
+                    <div class="flex items-center gap-2">
+                        <span class="w-2 h-2 rounded-full bg-green-500 inline-block"></span>
+                        FCA_ARCHIVE_NO_9821
+                    </div>
+                    <div>Digital Protocol: 2026</div>
+                </footer>
+            </div>
+        </div>
+    </main>
+
+    <!-- Script Partikel -->
+    <script>
+        const canvas = document.getElementById('particles-js');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        const connectionDistance = 130;
+
+        function init() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            particles = [];
+            let numParticles = window.innerWidth < 768 ? 35 : 75; // Optimalisasi jumlah partikel
+            for(let i = 0; i < numParticles; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    size: Math.random() * 2 + 0.5,
+                    speedX: Math.random() * 0.5 - 0.25,
+                    speedY: Math.random() * 0.5 - 0.25,
+                    opacity: Math.random() * 0.6 + 0.2
+                });
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            for(let i = 0; i < particles.length; i++) {
+                let p = particles[i];
+                p.x += p.speedX;
+                p.y += p.speedY;
+                
+                // Pantulkan dari tepi layar
+                if(p.x < 0 || p.x > canvas.width) p.speedX *= -1;
+                if(p.y < 0 || p.y > canvas.height) p.speedY *= -1;
+                
+                ctx.fillStyle = `rgba(255, 215, 0, ${p.opacity})`;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Hubungkan partikel yang berdekatan
+                for(let j = i + 1; j < particles.length; j++) {
+                    let p2 = particles[j];
+                    let dx = p.x - p2.x;
+                    let dy = p.y - p2.y;
+                    let distance = Math.sqrt(dx * dx + dy * dy);
+
+                    if(distance < connectionDistance) {
+                        ctx.beginPath();
+                        ctx.strokeStyle = `rgba(255, 215, 0, ${0.12 - (distance/connectionDistance) * 0.12})`;
+                        ctx.lineWidth = 0.6;
+                        ctx.moveTo(p.x, p.y);
+                        ctx.lineTo(p2.x, p2.y);
+                        ctx.stroke();
+                    }
+                }
+            }
+            requestAnimationFrame(animate);
+        }
+
+        init();
+        animate();
+        window.addEventListener('resize', init);
+    </script>
+</body>
+</html>
