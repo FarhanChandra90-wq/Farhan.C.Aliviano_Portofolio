@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reflection | Farhan Chandra Aliviano</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root { 
+            --gold-neon: #ffd700; 
+            --gold-glow: rgba(255, 215, 0, 0.5);
+            --magenta-neon: #ff00ff; 
+            --cyber-dark: #020205;
+        }
+        
+        body { 
+            background-color: var(--cyber-dark); 
+            color: white; 
+            font-family: 'Space Grotesk', sans-serif; 
+            overflow-x: hidden;
+        }
+
+        .font-baroque { font-family: 'Cinzel Decorative', cursive; }
+
+        /* Jaringan Partikel & Latar Belakang */
+        #particles-js {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .bg-cyber { 
+            background-image: 
+                radial-gradient(circle at 20% 80%, rgba(255, 0, 255, 0.03) 0%, transparent 60%),
+                radial-gradient(circle at 80% 20%, rgba(255, 215, 0, 0.03) 0%, transparent 60%),
+                url("https://www.transparenttextures.com/patterns/carbon-fibre.png");
+            background-attachment: fixed;
+        }
+
+        /* Rotating Background Geometry */
+        .geo-circle {
+            position: fixed;
+            top: 50%; left: 50%;
+            width: 900px; height: 900px;
+            transform: translate(-50%, -50%);
+            border: 2px dashed rgba(255, 215, 0, 0.05);
+            border-radius: 50%;
+            z-index: 0;
+            animation: spin-slow 50s linear infinite;
+            pointer-events: none;
+        }
+        .geo-circle-inner {
+            position: fixed;
+            top: 50%; left: 50%;
+            width: 700px; height: 700px;
+            transform: translate(-50%, -50%);
+            border: 1px solid rgba(255, 0, 255, 0.05);
+            border-radius: 50%;
+            z-index: 0;
+            animation: spin-slow-reverse 40s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes spin-slow { from { transform: translate(-50%, -50%) rotate(0deg); } to { transform: translate(-50%, -50%) rotate(360deg); } }
+        @keyframes spin-slow-reverse { from { transform: translate(-50%, -50%) rotate(360deg); } to { transform: translate(-50%, -50%) rotate(0deg); } }
+
+        /* Floating Rune Animation */
+        @keyframes float-rune {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0.1; }
+            50% { transform: translateY(-20px) rotate(180deg); opacity: 0.3; }
+            100% { transform: translateY(0) rotate(360deg); opacity: 0.1; }
+        }
+        .tech-rune {
+            position: fixed;
+            font-family: serif;
+            font-size: 2.5rem;
+            color: var(--gold-neon);
+            pointer-events: none;
+            animation: float-rune 12s infinite ease-in-out;
+            text-shadow: 0 0 15px var(--gold-neon);
+            z-index: 0;
+        }
+        
+        /* Cyber-Baroque Frame */
+        .cyber-frame { 
+            position: relative;
+            border: 1px solid rgba(255, 215, 0, 0.3); 
+            background: linear-gradient(135deg, rgba(15, 15, 25, 0.7) 0%, rgba(5, 5, 10, 0.9) 100%);
+            backdrop-filter: blur(15px);
+            box-shadow: 0 0 40px rgba(0,0,0,0.8), inset 0 0 20px rgba(255, 215, 0, 0.05);
+            z-index: 10;
+        }
+
+        .text-neon-gold { color: var(--gold-neon); text-shadow: 0 0 10px var(--gold-glow); }
+
+        /* Decorative Corners */
+        .corner-svg {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            fill: var(--gold-neon);
+            z-index: 25;
+            filter: drop-shadow(0 0 5px var(--gold-glow));
+            pointer-events: none;
+            opacity: 0.6;
+        }
+        .c-tl { top: -15px; left: -15px; }
+        .c-tr { top: -15px; right: -15px; transform: rotate(90deg); }
+        .c-bl { bottom: -15px; left: -15px; transform: rotate(-90deg); }
+        .c-br { bottom: -15px; right: -15px; transform: rotate(180deg); }
+
+        /* Quote Stylings */
+        .quote-accent::before {
+            content: "“";
+            font-family: 'Cinzel Decorative';
+            font-size: 8rem;
+            position: absolute;
+            top: -3rem;
+            left: 2rem;
+            opacity: 0.1;
+            color: var(--gold-neon);
+            pointer-events: none;
+            text-shadow: 0 0 20px var(--gold-neon);
+        }
+
+        /* Reflection Blocks */
+        .reflection-block {
+            position: relative;
+            border-left: 1px solid rgba(255, 215, 0, 0.2);
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            background: rgba(255, 255, 255, 0.01);
+            overflow: hidden;
+        }
+        .reflection-block:hover {
+            border-left: 1px solid var(--magenta-neon);
+            background: rgba(255, 255, 255, 0.03);
+            transform: translateX(10px);
+            box-shadow: inset 20px 0 30px -20px rgba(255, 0, 255, 0.1);
+        }
+
+        /* Scanning Line on hover */
+        .scan-line {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold-neon), transparent);
+            opacity: 0;
+            z-index: 5;
+            pointer-events: none;
+        }
+        .reflection-block:hover .scan-line {
+            animation: scan-vertical 2s linear infinite;
+            opacity: 0.5;
+        }
+        @keyframes scan-vertical { 0% { top: 0%; } 100% { top: 100%; } }
+
+        /* Glitch Hover Effect for Title */
+        .glitch-hover:hover {
+            animation: text-glitch 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite;
+            text-shadow: 2px 0 var(--magenta-neon), -2px 0 #00ffff;
+        }
+        @keyframes text-glitch {
+            0% { transform: translate(0) }
+            20% { transform: translate(-2px, 1px) }
+            40% { transform: translate(-1px, -1px) }
+            60% { transform: translate(2px, 1px) }
+            80% { transform: translate(1px, -1px) }
+            100% { transform: translate(0) }
+        }
+
+        /* Marquee Animation */
+        @keyframes marquee { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+        .animate-marquee { display: inline-block; animation: marquee 35s linear infinite; }
+
+    </style>
+</head>
+<body class="bg-cyber">
+    <!-- Visual Elemen Background -->
+    <canvas id="particles-js"></canvas>
+    <div class="geo-circle"></div>
+    <div class="geo-circle-inner"></div>
+
+    <!-- Tech Runes Decor -->
+    <div class="tech-rune top-1/4 left-10 drop-shadow-md">⚜</div>
+    <div class="tech-rune top-3/4 left-20" style="animation-delay: -2s;">⚛</div>
+    <div class="tech-rune top-1/3 right-10" style="animation-delay: -5s;">⌬</div>
+    <div class="tech-rune bottom-1/4 right-20" style="animation-delay: -7s;">⌘</div>
+
+    <!-- Hidden SVG Symbols -->
+    <svg style="display:none;">
+        <symbol id="corner" viewBox="0 0 100 100">
+            <path d="M0,0 L100,0 L100,2 L2,2 L2,100 L0,100 Z" />
+            <circle cx="5" cy="5" r="3" />
+            <rect x="20" y="0" width="40" height="1" />
+            <rect x="0" y="20" width="1" height="40" />
+            <circle cx="20" cy="20" r="1" fill="currentColor"/>
+        </symbol>
+    </svg>
+
+    <!-- Navigasi -->
+    <nav class="fixed top-0 w-full z-50 px-8 py-6 flex justify-between items-center backdrop-blur-xl border-b border-yellow-500/20">
+        <div class="font-baroque text-2xl text-neon-gold tracking-tighter drop-shadow-[0_0_8px_rgba(255,215,0,0.5)]">TencentCorp</div>
+        <div class="hidden md:flex space-x-10 text-[10px] uppercase tracking-[0.4em] font-bold">
+            <a href="about.html" class="hover:text-neon-gold transition">About</a>
+            <a href="cv.html" class="hover:text-neon-gold transition">CV</a>
+            <a href="projects.html" class="hover:text-neon-gold transition">Projects</a>
+            <a href="awards.html" class="hover:text-neon-gold transition">Awards</a>
+            <a href="reflection.html" class="text-neon-gold border-b border-neon-gold pb-1">Reflection</a>
+            <a href="contact.html" class="hover:text-neon-gold transition">Contact</a>
+        </div>
+    </nav>
+
+    <section id="reflection" class="pt-40 pb-32 px-6 relative z-10">
+        <div class="max-w-5xl mx-auto relative">
+            
+            <!-- Header Ornamen -->
+            <div class="text-center mb-24 relative">
+                <div class="flex items-center justify-center gap-4 mb-4">
+                    <div class="h-[2px] w-16 bg-gradient-to-r from-yellow-500 to-transparent hidden md:block"></div>
+                    <span class="text-magenta-500 text-xs tracking-[0.6em] font-bold uppercase animate-pulse">Introspection Log</span>
+                    <div class="h-[2px] w-16 bg-gradient-to-l from-yellow-500 to-transparent hidden md:block"></div>
+                </div>
+
+                <h1 class="text-6xl md:text-8xl font-baroque text-yellow-500 mb-2 tracking-tighter glitch-hover cursor-default drop-shadow-[0_0_15px_rgba(255,215,0,0.4)]">
+                    NEURAL REFLECTION
+                </h1>
+                <p class="text-xs uppercase tracking-[0.4em] text-white/50 mt-4">Analisis Perjalanan & Sintesis Visi Masa Depan</p>
+            </div>
+
+            <!-- Main Reflection Container -->
+            <div class="cyber-frame p-10 md:p-20 relative quote-accent rounded-sm">
+                <!-- Sudut Ornamen -->
+                <svg class="corner-svg c-tl"><use href="#corner"/></svg>
+                <svg class="corner-svg c-tr"><use href="#corner"/></svg>
+                <svg class="corner-svg c-bl"><use href="#corner"/></svg>
+                <svg class="corner-svg c-br"><use href="#corner"/></svg>
+
+                <!-- Watermark Center -->
+                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[20rem] font-baroque text-yellow-500 opacity-[0.02] pointer-events-none select-none">⚜</div>
+
+                <!-- Kutipan Utama -->
+                <div class="text-center mb-24 relative z-10">
+                    <p class="text-2xl md:text-4xl italic font-light leading-relaxed text-transparent bg-clip-text bg-gradient-to-br from-white via-white to-white/50 drop-shadow-sm">
+                        "Teknologi adalah kanvas, dan <span class="text-neon-gold font-baroque not-italic">Seni</span> adalah jiwanya."
+                    </p>
+                    <div class="mt-8 flex flex-col items-center gap-2">
+                        <div class="w-12 h-[1px] bg-magenta-500"></div>
+                        <p class="text-[10px] uppercase tracking-[0.5em] text-yellow-500/60 font-bold">— Filosofi Inti FCA —</p>
+                    </div>
+                </div>
+
+                <!-- Grid Konten -->
+                <div class="grid md:grid-cols-2 gap-12 relative z-10">
+                    <!-- Garis Tengah Dekoratif -->
+                    <div class="hidden md:block absolute left-1/2 top-0 bottom-0 w-[1px] bg-gradient-to-b from-yellow-500/10 via-yellow-500/40 to-yellow-500/10 -translate-x-1/2"></div>
+
+                    <div class="reflection-block p-8 group">
+                        <div class="scan-line"></div>
+                        <div class="flex items-center gap-4 mb-6">
+                            <div class="w-10 h-10 rounded-full border border-yellow-500/50 flex items-center justify-center text-xs font-mono text-yellow-500 shadow-[0_0_10px_rgba(255,215,0,0.2)] group-hover:border-yellow-500 transition">01</div>
+                            <h4 class="text-magenta-500 font-bold uppercase tracking-widest text-sm">Evaluasi Proses</h4>
+                        </div>
+                        <p class="opacity-80 text-sm md:text-base leading-loose font-light text-white/90">
+                            Detail terkecil dalam kode sama pentingnya dengan detail ukiran pada patung. Saya belajar bahwa <span class="text-yellow-500 font-bold">ketelitian</span> adalah jembatan antara imajinasi dan fungsionalitas. Setiap *bug* yang diperbaiki adalah pahatan menuju kesempurnaan sistem.
+                        </p>
+                    </div>
+
+                    <div class="reflection-block p-8 group">
+                        <div class="scan-line"></div>
+                        <div class="flex items-center gap-4 mb-6">
+                            <div class="w-10 h-10 rounded-full border border-yellow-500/50 flex items-center justify-center text-xs font-mono text-yellow-500 shadow-[0_0_10px_rgba(255,215,0,0.2)] group-hover:border-yellow-500 transition">02</div>
+                            <h4 class="text-magenta-500 font-bold uppercase tracking-widest text-sm">Masa Depan</h4>
+                        </div>
+                        <p class="opacity-80 text-sm md:text-base leading-loose font-light text-white/90">
+                            Menghidupkan seni statis melalui interaksi AI yang adaptif. Tujuan saya bukan hanya membuat alat, tapi menciptakan <span class="text-yellow-500 font-bold">ekosistem cerdas</span> yang mampu memahami estetika manusia sekaligus mengoptimalkan energi bumi.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Footer Sign-off -->
+                <div class="mt-24 pt-10 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-6 relative z-10">
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 border border-yellow-500/30 flex items-center justify-center font-baroque text-yellow-500 text-xl">F</div>
+                        <div>
+                            <div class="font-baroque text-yellow-500 text-xl tracking-widest">Farhan Chandra Aliviano</div>
+                            <div class="text-[9px] text-white/40 uppercase tracking-[0.4em] font-mono mt-1">Principal Researcher</div>
+                        </div>
+                    </div>
+                    <div class="text-[9px] text-magenta-500/60 uppercase tracking-[0.4em] font-mono border border-magenta-500/20 px-4 py-2 bg-black/40">
+                        Terminal Session: 2024.11.Reflect
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bottom Marquee Status Bar -->
+    <div class="fixed bottom-0 w-full z-50 px-8 py-3 bg-black/90 backdrop-blur-xl border-t border-yellow-500/10 flex justify-between items-center text-[8px] font-mono uppercase tracking-widest overflow-hidden">
+        <div class="flex items-center gap-10 z-10 bg-black/90 pr-4">
+            <div class="flex items-center gap-2">
+                <span class="text-yellow-500/50">Cognitive_State:</span>
+                <span class="text-yellow-500 drop-shadow-[0_0_5px_rgba(255,215,0,0.8)]">Lucid</span>
+            </div>
+        </div>
+        
+        <!-- Marquee Info -->
+        <div class="flex-1 whitespace-nowrap overflow-hidden opacity-40 italic relative">
+            <div class="inline-block animate-marquee text-yellow-500">
+                CORE_REFLECTION_ACTIVE /// ANALYZING_PAST_DATA... /// SYNTHESIZING_FUTURE_VISION... /// NEURAL_PATHWAYS_OPTIMIZED /// ALGORITHM_AND_ART_MERGED ///
+            </div>
+        </div>
+
+        <div class="flex items-center gap-4 pl-4 z-10 bg-black/90">
+            <span class="text-magenta-500 animate-pulse">Processing...</span>
+            <div class="w-2 h-2 rounded-full bg-green-500 shadow-[0_0_8px_#22c55e]"></div>
+        </div>
+    </div>
+
+    <!-- Script Partikel Jaringan Neural -->
+    <script>
+        const canvas = document.getElementById('particles-js');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        const connectionDistance = 140;
+
+        function init() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            particles = [];
+            let numParticles = window.innerWidth < 768 ? 30 : 60; 
+            for(let i = 0; i < numParticles; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    size: Math.random() * 2 + 0.5,
+                    speedX: Math.random() * 0.4 - 0.2,
+                    speedY: Math.random() * 0.4 - 0.2,
+                    opacity: Math.random() * 0.6 + 0.1
+                });
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            for(let i = 0; i < particles.length; i++) {
+                let p = particles[i];
+                p.x += p.speedX;
+                p.y += p.speedY;
+                
+                if(p.x < 0 || p.x > canvas.width) p.speedX *= -1;
+                if(p.y < 0 || p.y > canvas.height) p.speedY *= -1;
+                
+                ctx.fillStyle = `rgba(255, 215, 0, ${p.opacity})`;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fill();
+
+                for(let j = i + 1; j < particles.length; j++) {
+                    let p2 = particles[j];
+                    let dx = p.x - p2.x;
+                    let dy = p.y - p2.y;
+                    let distance = Math.sqrt(dx * dx + dy * dy);
+
+                    if(distance < connectionDistance) {
+                        ctx.beginPath();
+                        ctx.strokeStyle = `rgba(255, 215, 0, ${0.12 - (distance/connectionDistance) * 0.12})`;
+                        ctx.lineWidth = 0.6;
+                        ctx.moveTo(p.x, p.y);
+                        ctx.lineTo(p2.x, p2.y);
+                        ctx.stroke();
+                    }
+                }
+            }
+            requestAnimationFrame(animate);
+        }
+
+        init();
+        animate();
+        window.addEventListener('resize', init);
+    </script>
+</body>
+</html>
