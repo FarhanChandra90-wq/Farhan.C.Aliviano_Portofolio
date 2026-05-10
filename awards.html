@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Penghargaan | Farhan Chandra Aliviano</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gold-neon: #ffd700;
+            --gold-glow: rgba(255, 215, 0, 0.6);
+            --magenta-neon: #ff00ff;
+            --cyber-dark: #050508;
+        }
+
+        body {
+            background-color: var(--cyber-dark);
+            color: #e0e0e0;
+            font-family: 'Space+Grotesk', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .font-baroque { font-family: 'Cinzel Decorative', cursive; }
+
+        /* Holographic Scanline */
+        .scanline {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(255, 215, 0, 0.03) 50%);
+            background-size: 100% 4px;
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        /* Award Card Styling */
+        .award-card {
+            background: linear-gradient(135deg, rgba(255,215,0,0.05) 0%, rgba(5,5,8,1) 50%, rgba(255,0,255,0.02) 100%);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            position: relative;
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            overflow: hidden;
+        }
+
+        .award-card:hover {
+            transform: scale(1.02) translateY(-5px);
+            border-color: var(--gold-neon);
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.15), inset 0 0 15px rgba(255, 215, 0, 0.05);
+        }
+
+        /* Glint/Shine Animation */
+        .award-card::after {
+            content: "";
+            position: absolute;
+            top: -50%; left: -60%;
+            width: 20%; height: 200%;
+            background: rgba(255, 215, 0, 0.2);
+            transform: rotate(30deg);
+            transition: 0.8s;
+            pointer-events: none;
+        }
+
+        .award-card:hover::after {
+            left: 120%;
+        }
+
+        /* Decorative Corners */
+        .corner-ornament {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            fill: var(--gold-neon);
+            opacity: 0.3;
+            transition: 0.3s;
+        }
+        .award-card:hover .corner-ornament { opacity: 1; filter: drop-shadow(0 0 5px var(--gold-neon)); }
+        .top-l { top: 10px; left: 10px; }
+        .bottom-r { bottom: 10px; right: 10px; transform: rotate(180deg); }
+
+        /* Badge/Seal */
+        .award-seal {
+            width: 60px;
+            height: 60px;
+            background: var(--cyber-dark);
+            border: 2px solid var(--gold-neon);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            box-shadow: 0 0 10px var(--gold-glow);
+        }
+
+        .award-seal::before {
+            content: "CERTIFIED";
+            position: absolute;
+            font-size: 6px;
+            font-weight: bold;
+            color: var(--gold-neon);
+            bottom: -15px;
+            letter-spacing: 2px;
+        }
+
+        /* Background Floating Items */
+        #bg-elements {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .floating-icon {
+            position: absolute;
+            opacity: 0.1;
+            filter: blur(1px);
+            animation: float-up 20s infinite linear;
+        }
+
+        @keyframes float-up {
+            from { transform: translateY(110vh) rotate(0deg); }
+            to { transform: translateY(-10vh) rotate(360deg); }
+        }
+
+        /* Section Title Glow */
+        .glow-title {
+            text-shadow: 0 0 20px var(--gold-glow), 0 0 40px rgba(255, 0, 255, 0.3);
+        }
+
+        /* Jaringan Partikel & Geometri (BARU) */
+        #particles-js {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .geo-circle {
+            position: absolute;
+            top: 15%; left: 50%;
+            width: 800px; height: 800px;
+            transform: translate(-50%, -50%);
+            border: 2px dashed rgba(255, 215, 0, 0.05);
+            border-radius: 50%;
+            z-index: 0;
+            animation: spin-slow 40s linear infinite;
+            pointer-events: none;
+        }
+        
+        .geo-circle-inner {
+            position: absolute;
+            top: 15%; left: 50%;
+            width: 600px; height: 600px;
+            transform: translate(-50%, -50%);
+            border: 1px solid rgba(255, 0, 255, 0.05);
+            border-radius: 50%;
+            z-index: 0;
+            animation: spin-slow-reverse 30s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes spin-slow { from { transform: translate(-50%, -50%) rotate(0deg); } to { transform: translate(-50%, -50%) rotate(360deg); } }
+        @keyframes spin-slow-reverse { from { transform: translate(-50%, -50%) rotate(360deg); } to { transform: translate(-50%, -50%) rotate(0deg); } }
+
+        /* Floating Rune Animation */
+        @keyframes float-rune {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0.1; }
+            50% { transform: translateY(-20px) rotate(180deg); opacity: 0.3; }
+            100% { transform: translateY(0) rotate(360deg); opacity: 0.1; }
+        }
+        .tech-rune {
+            position: absolute;
+            font-family: serif;
+            font-size: 2.5rem;
+            color: var(--gold-neon);
+            pointer-events: none;
+            animation: float-rune 12s infinite ease-in-out;
+            text-shadow: 0 0 15px var(--gold-neon);
+        }
+
+        /* Marquee Animation */
+        @keyframes marquee { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+        .animate-marquee { display: inline-block; animation: marquee 35s linear infinite; }
+        
+        /* Scanline untuk Kartu */
+        .card-scanline {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold-neon), transparent);
+            opacity: 0;
+            z-index: 5;
+            pointer-events: none;
+        }
+        .award-card:hover .card-scanline {
+            animation: scan-vertical 2s linear infinite;
+            opacity: 0.6;
+        }
+        @keyframes scan-vertical { 0% { top: 0%; } 100% { top: 100%; } }
+
+        /* Background Watermark dalam Kartu */
+        .card-watermark {
+            position: absolute;
+            top: 50%; right: -5%;
+            transform: translateY(-50%);
+            font-size: 10rem;
+            opacity: 0.02;
+            color: var(--gold-neon);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Update styling award card untuk glassmorphism lebih kuat */
+        .award-card {
+            background: linear-gradient(135deg, rgba(15, 15, 25, 0.7) 0%, rgba(5, 5, 10, 0.9) 100%);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            position: relative;
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            overflow: hidden;
+            z-index: 10;
+        }
+    </style>
+</head>
+<body class="bg-black">
+    <div class="scanline"></div>
+    
+    <!-- Elemen Visual Background Baru -->
+    <canvas id="particles-js"></canvas>
+    <div class="geo-circle"></div>
+    <div class="geo-circle-inner"></div>
+
+    <!-- Tech Runes Decor -->
+    <div class="tech-rune top-1/4 left-10 drop-shadow-md">⚜</div>
+    <div class="tech-rune top-3/4 left-20" style="animation-delay: -2s;">⚛</div>
+    <div class="tech-rune top-1/3 right-10" style="animation-delay: -5s;">⌬</div>
+    <div class="tech-rune bottom-1/4 right-20" style="animation-delay: -7s;">⌘</div>
+
+    <!-- SVGs Definitions -->
+    <svg style="display:none;">
+        <symbol id="icon-crown" viewBox="0 0 24 24">
+            <path d="M5 16L3 5L8.5 10L12 4L15.5 10L21 5L19 16H5M19 19C19 19.6 18.6 20 18 20H6C5.4 20 5 19.6 5 19V18H19V19Z" fill="currentColor"/>
+        </symbol>
+        <symbol id="corner-svg" viewBox="0 0 100 100">
+            <path d="M0,0 L100,0 L100,5 L5,5 L5,100 L0,100 Z M15,15 L80,15 L80,20 L20,20 L20,80 L15,80 Z" />
+        </symbol>
+    </svg>
+
+    <!-- Navigasi -->
+    <nav class="fixed top-0 w-full z-50 px-8 py-6 flex justify-between items-center backdrop-blur-xl border-b border-yellow-500/30">
+        <div class="font-baroque text-2xl text-yellow-500 tracking-tighter">TencentCorp</div>
+        <div class="hidden md:flex space-x-10 text-[10px] uppercase tracking-[0.4em] font-bold">
+            <a href="index.html" class="hover:text-yellow-500 transition">About</a>
+            <a href="cv.html" class="hover:text-yellow-500 transition">CV</a>
+            <a href="projects.html" class="hover:text-yellow-500 transition">Projects</a>
+            <a href="awards.html" class="text-yellow-500 border-b border-yellow-500 pb-1">Awards</a>
+            <a href="reflection.html" class="hover:text-yellow-500 transition">Reflection</a>
+            <a href="contact.html" class="hover:text-yellow-500 transition">Contact</a>
+        </div>
+    </nav>
+
+    <main class="pt-32 pb-20 px-6">
+        <div class="max-w-6xl mx-auto relative z-10">
+            <div class="text-center mb-24 relative">
+                <!-- Tambahan Hiasan Header -->
+                <div class="flex items-center justify-center gap-4 mb-4">
+                    <div class="h-[2px] w-16 bg-gradient-to-r from-yellow-500 to-transparent"></div>
+                    <span class="text-magenta-500 text-xs tracking-[0.6em] font-bold uppercase animate-pulse">Achievement Records</span>
+                    <div class="h-[2px] w-16 bg-gradient-to-l from-yellow-500 to-transparent"></div>
+                </div>
+
+                <h1 class="text-5xl md:text-7xl font-baroque text-yellow-500 glow-title mb-4 relative inline-block">
+                    ARCHIVE OF HONORS
+                    <!-- Hiasan Mahkota Kecil -->
+                    <span class="absolute -top-6 -right-8 text-2xl opacity-50 rotate-12">👑</span>
+                </h1>
+                <p class="text-xs uppercase tracking-[0.5em] text-magenta-500 mt-2">Bukti Keunggulan & Dedikasi Diri</p>
+                
+                <div class="flex justify-center items-center gap-4 mt-8 opacity-50">
+                    <div class="w-24 h-[1px] bg-yellow-500"></div>
+                    <span class="text-yellow-500 font-baroque text-xl">⚜</span>
+                    <div class="w-24 h-[1px] bg-yellow-500"></div>
+                </div>
+            </div>
+
+            <!-- Awards Grid -->
+            <div class="grid md:grid-cols-2 gap-12">
+                
+                <!-- Award Item 1 -->
+                <div class="award-card p-10 group">
+                    <div class="card-scanline"></div>
+                    <div class="card-watermark font-baroque">01</div>
+                    <svg class="corner-ornament top-l"><use href="#corner-svg"/></svg>
+                    <svg class="corner-ornament bottom-r"><use href="#corner-svg"/></svg>
+                    
+                    <div class="flex items-start justify-between relative z-10">
+                        <div class="award-seal">
+                            <svg class="w-8 h-8 text-yellow-500"><use href="#icon-crown"/></svg>
+                        </div>
+                        <span class="font-baroque text-2xl text-yellow-500/40 group-hover:text-yellow-500 transition duration-500 drop-shadow-[0_0_8px_rgba(255,215,0,0.5)]">2023</span>
+                    </div>
+
+                    <div class="mt-8 relative z-10">
+                        <div class="flex items-center gap-2 mb-2">
+                            <span class="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></span>
+                            <span class="text-[8px] font-mono text-white/50 tracking-widest uppercase">Verified Record</span>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-2 tracking-tight group-hover:text-yellow-400 transition">Juara 3 OSN-P Matematika SMP</h3>
+                        <p class="text-magenta-500 font-baroque italic mb-4">Olimpiade Sains Nasional - Provinsi</p>
+                        <div class="p-4 bg-white/5 rounded border-l-2 border-yellow-500 text-sm opacity-80 leading-relaxed backdrop-blur-sm">
+                            Pencapaian luar biasa dalam kompetisi logika dan matematika tingkat provinsi DKI Jakarta, menunjukkan kemampuan analitis yang tajam.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Award Item 2 -->
+                <div class="award-card p-10 group">
+                    <div class="card-scanline"></div>
+                    <div class="card-watermark font-baroque">02</div>
+                    <svg class="corner-ornament top-l"><use href="#corner-svg"/></svg>
+                    <svg class="corner-ornament bottom-r"><use href="#corner-svg"/></svg>
+                    
+                    <div class="flex items-start justify-between relative z-10">
+                        <div class="award-seal">
+                            <svg class="w-8 h-8 text-yellow-500" viewBox="0 0 24 24"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" fill="currentColor"/></svg>
+                        </div>
+                        <span class="font-baroque text-2xl text-yellow-500/40 group-hover:text-yellow-500 transition drop-shadow-[0_0_8px_rgba(255,215,0,0.5)]">2025</span>
+                    </div>
+
+                    <div class="mt-8 relative z-10">
+                        <div class="flex items-center gap-2 mb-2">
+                            <span class="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></span>
+                            <span class="text-[8px] font-mono text-white/50 tracking-widest uppercase">Verified Record</span>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-2 tracking-tight group-hover:text-yellow-400 transition">Honorable Mention UI Science Olympiad</h3>
+                        <p class="text-magenta-500 font-baroque italic mb-4">Universitas Indonesia</p>
+                        <div class="p-4 bg-white/5 rounded border-l-2 border-yellow-500 text-sm opacity-80 leading-relaxed backdrop-blur-sm">
+                            Dedikasi terhormat atas kerja keras yang didapat dalam memperjuangkan kemenangannya dalam suatu kompetisi sains.
+                        </div>
+                    </div>
+                </div>
+
+                <!--  Award Item 3  -->
+                <div class="award-card p-10 group">
+                    <div class="card-scanline"></div>
+                    <div class="card-watermark font-baroque">03</div>
+                    <svg class="corner-ornament top-l"><use href="#corner-svg"/></svg>
+                    <svg class="corner-ornament bottom-r"><use href="#corner-svg"/></svg>
+                    
+                    <div class="flex items-start justify-between relative z-10">
+                        <div class="award-seal">
+                            <svg class="w-8 h-8 text-yellow-500" viewBox="0 0 24 24"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" fill="currentColor"/></svg>
+                        </div>
+                        <span class="font-baroque text-2xl text-yellow-500/40 group-hover:text-yellow-500 transition drop-shadow-[0_0_8px_rgba(255,215,0,0.5)]">2025</span>
+                    </div>
+
+                    <div class="mt-8 relative z-10">
+                        <div class="flex items-center gap-2 mb-2">
+                            <span class="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></span>
+                            <span class="text-[8px] font-mono text-white/50 tracking-widest uppercase">Verified Record</span>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-2 tracking-tight group-hover:text-yellow-400 transition">Finalist Semifinal Logika UI </h3>
+                        <p class="text-magenta-500 font-baroque italic mb-4">Universitas Indonesia</p>
+                        <div class="p-4 bg-white/5 rounded border-l-2 border-yellow-500 text-sm opacity-80 leading-relaxed backdrop-blur-sm">
+                            Sertifikasi untuk menunjukan kepada diri sendiri agar lebih giat dalam belajar dan memperbanyak evaluasi kedepannya.
+                        </div>
+                    </div>
+                </div>
+
+                <!--  Award Item 4  -->
+                <div class="award-card p-10 group">
+                    <div class="card-scanline"></div>
+                    <div class="card-watermark font-baroque">04</div>
+                    <svg class="corner-ornament top-l"><use href="#corner-svg"/></svg>
+                    <svg class="corner-ornament bottom-r"><use href="#corner-svg"/></svg>
+                    
+                    <div class="flex items-start justify-between relative z-10">
+                        <div class="award-seal">
+                            <svg class="w-8 h-8 text-yellow-500" viewBox="0 0 24 24"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" fill="currentColor"/></svg>
+                        </div>
+                        <span class="font-baroque text-2xl text-yellow-500/40 group-hover:text-yellow-500 transition drop-shadow-[0_0_8px_rgba(255,215,0,0.5)]">2026</span>
+                    </div>
+
+                    <div class="mt-8 relative z-10">
+                        <div class="flex items-center gap-2 mb-2">
+                            <span class="w-1.5 h-1.5 bg-blue-500 rounded-full animate-pulse"></span>
+                            <span class="text-[8px] font-mono text-white/50 tracking-widest uppercase">Target Projection</span>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-2 tracking-tight group-hover:text-yellow-400 transition">Gold Medalist OSN MATEMATIKA SMA (Planning)</h3>
+                        <p class="text-magenta-500 font-baroque italic mb-4">Pusat Prestasi Nasional DKI Jakarta</p>
+                        <div class="p-4 bg-white/5 rounded border-l-2 border-yellow-500 text-sm opacity-80 leading-relaxed backdrop-blur-sm">
+                            Sebuah manivestasi dan motivasi agar terus disiplin dalam belajar dan mempersiapkan diri lebih baik lagi.
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Decorative Bottom Element -->
+            <div class="mt-32 text-center relative z-10">
+                <div class="inline-block p-12 border border-yellow-500/20 relative bg-black/40 backdrop-blur-sm">
+                    <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-black px-4 font-baroque text-yellow-500 drop-shadow-[0_0_8px_rgba(255,215,0,0.8)]">EST. MMXXIV</div>
+                    <p class="max-w-md opacity-40 text-xs leading-loose tracking-widest uppercase">
+                        Setiap penghargaan adalah blok bangunan untuk visi masa depan penelitian energi terbarukan berbasis AI.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Bottom Marquee Status Bar -->
+    <div class="fixed bottom-0 w-full z-50 px-8 py-3 bg-black/90 backdrop-blur-xl border-t border-yellow-500/10 flex justify-between items-center text-[8px] font-mono uppercase tracking-widest overflow-hidden">
+        <div class="flex items-center gap-10 z-10 bg-black/90 pr-4">
+            <div class="flex items-center gap-2">
+                <span class="text-yellow-500/50">Archive_Status:</span>
+                <span class="text-yellow-500 drop-shadow-[0_0_5px_rgba(255,215,0,0.8)]">Secured</span>
+            </div>
+        </div>
+        
+        <!-- Marquee Info -->
+        <div class="flex-1 whitespace-nowrap overflow-hidden opacity-40 italic relative">
+            <div class="inline-block animate-marquee text-yellow-500">
+                AWARDS_AND_CERTIFICATIONS_LOADED /// OSN-P_MATEMATIKA_SMP_[VERIFIED] /// UI_SCIENCE_OLYMPIAD_[VERIFIED] /// LOGIKA_UI_[VERIFIED] /// FUTURE_PROJECTIONS_ACTIVE ///
+            </div>
+        </div>
+
+        <div class="flex items-center gap-4 pl-4 z-10 bg-black/90">
+            <span class="text-magenta-500 animate-pulse">Validating...</span>
+            <div class="w-2 h-2 rounded-full bg-green-500 shadow-[0_0_8px_#22c55e]"></div>
+        </div>
+    </div>
+
+    <script>
+        // Script Partikel Jaringan 
+        const canvas = document.getElementById('particles-js');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        const connectionDistance = 140;
+
+        function init() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            particles = [];
+            let numParticles = window.innerWidth < 768 ? 25 : 55; 
+            for(let i = 0; i < numParticles; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    size: Math.random() * 2 + 0.5,
+                    speedX: Math.random() * 0.4 - 0.2,
+                    speedY: Math.random() * 0.4 - 0.2,
+                    opacity: Math.random() * 0.6 + 0.1
+                });
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            for(let i = 0; i < particles.length; i++) {
+                let p = particles[i];
+                p.x += p.speedX;
+                p.y += p.speedY;
+                
+                if(p.x < 0 || p.x > canvas.width) p.speedX *= -1;
+                if(p.y < 0 || p.y > canvas.height) p.speedY *= -1;
+                
+                ctx.fillStyle = `rgba(255, 215, 0, ${p.opacity})`;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fill();
+
+                for(let j = i + 1; j < particles.length; j++) {
+                    let p2 = particles[j];
+                    let dx = p.x - p2.x;
+                    let dy = p.y - p2.y;
+                    let distance = Math.sqrt(dx * dx + dy * dy);
+
+                    if(distance < connectionDistance) {
+                        ctx.beginPath();
+                        ctx.strokeStyle = `rgba(255, 215, 0, ${0.12 - (distance/connectionDistance) * 0.12})`;
+                        ctx.lineWidth = 0.6;
+                        ctx.moveTo(p.x, p.y);
+                        ctx.lineTo(p2.x, p2.y);
+                        ctx.stroke();
+                    }
+                }
+            }
+            requestAnimationFrame(animate);
+        }
+
+        init();
+        animate();
+        window.addEventListener('resize', init);
+    </script>
+</body>
+</html>
