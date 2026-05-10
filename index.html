@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About | Farhan Chandra Aliviano</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root { 
+            --gold-neon: #ffd700; 
+            --gold-glow: rgba(255, 215, 0, 0.4); 
+            --magenta-neon: #ff00ff; 
+            --cyber-dark: #020205; 
+        }
+
+        body { 
+            background-color: var(--cyber-dark); 
+            color: #f0f0f0; 
+            font-family: 'Space Grotesk', sans-serif; 
+            overflow-x: hidden; 
+        }
+
+        .font-baroque { font-family: 'Cinzel Decorative', cursive; }
+
+        /* Background Digital Damask & Noise */
+        .bg-cyber { 
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(255, 215, 0, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(255, 0, 255, 0.02) 0%, transparent 50%),
+                url("https://www.transparenttextures.com/patterns/carbon-fibre.png");
+            background-attachment: fixed;
+        }
+
+        /* Particle Background Animation */
+        #particles-js {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* Sacred Geometry / Astrolabe Background */
+        .astrolabe-bg {
+            position: fixed;
+            top: 50%; left: 50%;
+            width: 150vmax; height: 150vmax;
+            transform: translate(-50%, -50%);
+            background-image: 
+                repeating-radial-gradient(circle, transparent, transparent 40px, rgba(255, 215, 0, 0.02) 41px, rgba(255, 215, 0, 0.02) 42px),
+                conic-gradient(from 0deg, transparent 0deg, rgba(255, 215, 0, 0.02) 10deg, transparent 20deg);
+            border-radius: 50%;
+            animation: spin-slow 120s linear infinite;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Floating Rune Animation */
+        @keyframes float-rune {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0.1; }
+            50% { transform: translateY(-20px) rotate(180deg); opacity: 0.3; }
+            100% { transform: translateY(0) rotate(360deg); opacity: 0.1; }
+        }
+        .tech-rune {
+            position: absolute;
+            font-family: serif;
+            font-size: 2.5rem;
+            color: var(--gold-neon);
+            pointer-events: none;
+            animation: float-rune 12s infinite ease-in-out;
+            text-shadow: 0 0 15px var(--gold-neon);
+        }
+
+        /* Cyber-Baroque Frame */
+        .cyber-frame { 
+            position: relative; 
+            border: 1px solid rgba(255, 215, 0, 0.3); 
+            padding: 12px;
+            background: rgba(0, 0, 0, 0.8); 
+            box-shadow: 0 0 40px rgba(0,0,0,0.5);
+            z-index: 10;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .cyber-frame:hover {
+            border-color: var(--gold-neon);
+            transform: scale(1.02);
+            box-shadow: 0 0 60px rgba(255, 215, 0, 0.15);
+        }
+
+        /* Corner SVG Decor */
+        .corner-svg {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            fill: var(--gold-neon);
+            z-index: 25;
+            filter: drop-shadow(0 0 5px var(--gold-glow));
+            pointer-events: none;
+            opacity: 0.6;
+        }
+        .c-tl { top: -25px; left: -25px; }
+        .c-tr { top: -25px; right: -25px; transform: rotate(90deg); }
+        .c-bl { bottom: -25px; left: -25px; transform: rotate(-90deg); }
+        .c-br { bottom: -25px; right: -25px; transform: rotate(180deg); }
+
+        /* Rotating Geometry Behind Image */
+        .geo-circle {
+            position: absolute;
+            top: 50%; left: 50%;
+            width: 120%; height: 120%;
+            transform: translate(-50%, -50%);
+            border: 1px dashed rgba(255, 215, 0, 0.1);
+            border-radius: 50%;
+            z-index: 0;
+            animation: spin 30s linear infinite;
+        }
+
+        @keyframes spin { from { transform: translate(-50%, -50%) rotate(0deg); } to { transform: translate(-50%, -50%) rotate(360deg); } }
+        @keyframes spin-slow { from { transform: translate(-50%, -50%) rotate(0deg); } to { transform: translate(-50%, -50%) rotate(360deg); } }
+
+        /* Glass Card with Fingerprint */
+        .glass-card { 
+            background: rgba(15, 15, 25, 0.4);
+            backdrop-filter: blur(15px); 
+            border: 1px solid rgba(255, 215, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.05), transparent);
+            transition: 0.5s;
+        }
+        .glass-card:hover::before { left: 100%; }
+        
+        .fingerprint-bg {
+            position: absolute;
+            top: 50%; right: -10%;
+            transform: translateY(-50%);
+            font-size: 15rem;
+            opacity: 0.02;
+            color: var(--gold-neon);
+            pointer-events: none;
+            animation: scan-pulse 4s infinite alternate;
+        }
+
+        @keyframes scan-pulse { 0% { opacity: 0.01; filter: blur(2px); } 100% { opacity: 0.04; filter: blur(0px); } }
+
+        /* Scanning HUD effect */
+        .hud-line {
+            position: absolute;
+            width: 100%; height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold-neon), transparent);
+            animation: scan-vertical 4s linear infinite;
+            z-index: 5;
+            opacity: 0.3;
+        }
+        @keyframes scan-vertical { 0% { top: 0%; } 100% { top: 100%; } }
+
+        /* Vertical Status Indicators */
+        .status-pill {
+            width: 4px;
+            height: 40px;
+            background: rgba(255,215,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        .status-pill::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; width: 100%;
+            height: var(--percent);
+            background: var(--gold-neon);
+            box-shadow: 0 0 10px var(--gold-neon);
+        }
+
+        .vertical-text { writing-mode: vertical-rl; }
+
+        /* Audio Equalizer Anim */
+        .eq-bar {
+            width: 3px;
+            background: var(--gold-neon);
+            border-radius: 2px;
+            animation: equalize 1s ease-in-out infinite alternate;
+        }
+        @keyframes equalize { 0% { height: 4px; } 100% { height: 20px; } }
+
+        /* Glitch Hover Effect for Title */
+        .glitch-hover:hover {
+            animation: text-glitch 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite;
+            text-shadow: 2px 0 var(--magenta-neon), -2px 0 #00ffff;
+        }
+        @keyframes text-glitch {
+            0% { transform: translate(0) }
+            20% { transform: translate(-2px, 1px) }
+            40% { transform: translate(-1px, -1px) }
+            60% { transform: translate(2px, 1px) }
+            80% { transform: translate(1px, -1px) }
+            100% { transform: translate(0) }
+        }
+
+    </style>
+</head>
+<body class="bg-cyber">
+    <div class="astrolabe-bg"></div>
+    <canvas id="particles-js"></canvas>
+    
+    <!-- Tech Runes Decor -->
+    <div class="tech-rune top-1/4 left-10 drop-shadow-md">⚜</div>
+    <div class="tech-rune top-3/4 left-20" style="animation-delay: -2s;">⚛</div>
+    <div class="tech-rune top-1/3 right-10" style="animation-delay: -5s;">⌬</div>
+    <div class="tech-rune bottom-1/4 right-20" style="animation-delay: -7s;">⌘</div>
+
+    <!-- Navigasi -->
+    <nav class="fixed top-0 w-full z-50 px-8 py-6 flex justify-between items-center backdrop-blur-xl border-b border-yellow-500/10">
+        <div class="font-baroque text-2xl text-yellow-500 tracking-tighter drop-shadow-[0_0_8px_rgba(255,215,0,0.5)]">TencentCorp</div>
+        <div class="hidden md:flex space-x-10 text-[10px] uppercase tracking-[0.4em] font-bold">
+            <a href="about.html" class="text-yellow-500 border-b border-yellow-500 pb-1">About</a>
+            <a href="cv.html" class="hover:text-yellow-500 transition">CV</a>
+            <a href="projects.html" class="hover:text-yellow-500 transition">Projects</a>
+            <a href="awards.html" class="hover:text-yellow-500 transition">Awards</a>
+            <a href="reflection.html" class="hover:text-yellow-500 transition">Reflection</a>
+            <a href="contact.html" class="hover:text-yellow-500 transition">Contact</a>
+        </div>
+    </nav>
+
+    <!-- Hidden SVG Symbols -->
+    <svg style="display:none;">
+        <symbol id="corner" viewBox="0 0 100 100">
+            <path d="M0,0 L100,0 L100,2 L2,2 L2,100 L0,100 Z" />
+            <circle cx="5" cy="5" r="3" />
+            <rect x="20" y="0" width="40" height="1" />
+            <rect x="0" y="20" width="1" height="40" />
+            <circle cx="20" cy="20" r="1" fill="currentColor"/>
+        </symbol>
+    </svg>
+
+    <section class="pt-40 pb-24 px-8 relative z-10 flex flex-col items-center">
+        <div class="max-w-7xl w-full grid lg:grid-cols-2 gap-20 items-center">
+            
+            <!-- Visual Portfolio Section -->
+            <div class="relative group">
+                <!-- Rotating Background Geometry -->
+                <div class="geo-circle"></div>
+                <div class="geo-circle" style="width: 110%; height: 110%; animation-direction: reverse; animation-duration: 40s; border-style: solid; opacity: 0.05;"></div>
+                
+                <!-- Floating Biometric HUD -->
+                <div class="absolute -right-12 top-0 z-30 flex flex-col items-end gap-3 animate-pulse">
+                    <div class="flex gap-1">
+                        <div class="status-pill" style="--percent: 85%"></div>
+                        <div class="status-pill" style="--percent: 40%"></div>
+                        <div class="status-pill" style="--percent: 90%"></div>
+                        <div class="status-pill" style="--percent: 60%"></div>
+                    </div>
+                    <div class="text-[7px] font-mono text-yellow-500 bg-black/80 p-1 border border-yellow-500/30 shadow-[0_0_10px_rgba(255,215,0,0.2)]">
+                        NEURAL_SYNC: OPTIMAL
+                    </div>
+                </div>
+
+                <!-- Frame Utama -->
+                <div class="cyber-frame mx-auto lg:mx-0 max-w-[420px]">
+                    <div class="hud-line"></div>
+                    
+                    <svg class="corner-svg c-tl"><use href="#corner"/></svg>
+                    <svg class="corner-svg c-tr"><use href="#corner"/></svg>
+                    <svg class="corner-svg c-bl"><use href="#corner"/></svg>
+                    <svg class="corner-svg c-br"><use href="#corner"/></svg>
+                    
+                    <div class="relative overflow-hidden bg-black aspect-[3/4]">
+                        <!-- Dynamic Border Overlays -->
+                        <div class="absolute inset-2 border border-white/5 pointer-events-none z-10"></div>
+                        <div class="absolute inset-4 border border-yellow-500/10 pointer-events-none z-10 border-dashed"></div>
+
+                        <img src="https://lh3.googleusercontent.com/d/1PlkX9KJ5oTOI6o8uK8RHXNVQmvyYvSXV" 
+                             alt="Foto Profil Farhan Chandra Aliviano" 
+                             class="w-full h-full object-cover grayscale brightness-90 group-hover:grayscale-0 group-hover:brightness-110 transition duration-1000 scale-100 group-hover:scale-105">
+                        
+                        <!-- HUD Scan Overlays -->
+                        <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-20 transition duration-500 pointer-events-none">
+                             <div class="w-64 h-64 border-2 border-dashed border-yellow-500 rounded-full animate-[spin_4s_linear_infinite]"></div>
+                             <div class="absolute w-48 h-48 border border-magenta-500 rounded-full animate-ping"></div>
+                        </div>
+
+                        <!-- Profile Tag -->
+                        <div class="absolute bottom-6 left-6 right-6 flex justify-between items-end z-20">
+                            <div class="backdrop-blur-md bg-black/60 p-3 border-l-2 border-yellow-500 shadow-lg">
+                                <h3 class="font-baroque text-yellow-500 text-xl leading-none">The Researcher</h3>
+                                <p class="text-[8px] font-mono text-white/60 tracking-widest uppercase mt-1 flex items-center gap-2">
+                                    <span class="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></span>
+                                    ID: 9821-ALPHA
+                                </p>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-3xl font-bold text-magenta-500/50 drop-shadow-[0_0_5px_rgba(255,0,255,0.5)]">01</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Decorative Tags below frame -->
+                <div class="mt-8 flex gap-3 justify-center lg:justify-start">
+                    <span class="text-[8px] px-3 py-1 border border-yellow-500/20 bg-yellow-500/5 text-yellow-500 tracking-widest shadow-[0_0_10px_rgba(255,215,0,0.1)]">SYSTEMS_ARCHITECT</span>
+                    <span class="text-[8px] px-3 py-1 border border-magenta-500/20 bg-magenta-500/5 text-magenta-500 tracking-widest shadow-[0_0_10px_rgba(255,0,255,0.1)]">AI_SPECIALIST</span>
+                </div>
+            </div>
+
+            <!-- Content Section -->
+            <div class="relative">
+                <!-- Abstract Geometric Decor -->
+                <div class="absolute -top-16 -left-16 w-32 h-32 border-2 border-yellow-500/5 rounded-full animate-spin hidden lg:block" style="animation-duration: 20s;"></div>
+
+                <div class="mb-8 flex items-end gap-4">
+                    <div class="w-12 h-[1px] bg-yellow-500 mb-1"></div>
+                    <span class="text-xs font-mono text-yellow-500/60 tracking-[0.5em] uppercase">Identity Matrix // Initialize</span>
+                    <!-- Equalizer Audio Visualizer -->
+                    <div class="flex items-end gap-[2px] h-4 ml-2">
+                        <div class="eq-bar" style="animation-delay: 0.1s"></div>
+                        <div class="eq-bar" style="animation-delay: 0.4s"></div>
+                        <div class="eq-bar" style="animation-delay: 0.2s"></div>
+                        <div class="eq-bar" style="animation-delay: 0.5s"></div>
+                    </div>
+                </div>
+
+                <!-- Glitch Hover Text -->
+                <h1 class="text-6xl md:text-8xl font-black mb-8 leading-[0.8] tracking-tighter cursor-default glitch-hover">
+                    FARHAN CHANDRA <br>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 via-white to-yellow-600 drop-shadow-sm">ALIVIANO</span>
+                </h1>
+
+                <!-- Speciality Grid -->
+                <div class="grid grid-cols-2 gap-4 mb-10 max-w-md">
+                    <div class="border-l border-yellow-500/40 pl-4 py-2 group/spec cursor-crosshair hover:bg-yellow-500/5 transition">
+                        <span class="text-[9px] text-white/40 uppercase block mb-1 group-hover/spec:text-yellow-500 transition">Expertise_A</span>
+                        <p class="font-baroque text-yellow-500 text-lg">Principal Researcher</p>
+                    </div>
+                    <div class="border-l border-magenta-500/40 pl-4 py-2 group/spec cursor-crosshair hover:bg-magenta-500/5 transition">
+                        <span class="text-[9px] text-white/40 uppercase block mb-1 group-hover/spec:text-magenta-500 transition">Expertise_B</span>
+                        <p class="font-baroque text-magenta-500 text-lg">Solar Dynamics</p>
+                    </div>
+                </div>
+
+                <!-- Main Biography Card with Fingerprint Watermark -->
+                <div class="glass-card p-8 md:p-12 mb-12 relative group/card shadow-2xl">
+                    <!-- Ornamental Corner -->
+                    <div class="absolute top-0 right-0 p-6 opacity-20 group-hover/card:opacity-100 transition-opacity z-10">
+                        <svg width="60" height="60" viewBox="0 0 100 100" fill="none" stroke="currentColor" class="text-yellow-500">
+                            <path d="M100 0 L100 30 M100 0 L70 0" stroke-width="1"/>
+                            <circle cx="90" cy="10" r="4" fill="currentColor"/>
+                        </svg>
+                    </div>
+
+                    <!-- SVG Fingerprint Background -->
+                    <div class="fingerprint-bg font-baroque">◎</div>
+
+                    <p class="relative z-10 text-xl md:text-3xl leading-relaxed font-light text-white/80 italic group-hover/card:text-white transition-colors duration-500">
+                        "Visi saya adalah melampaui batasan teknologi konvensional. Sebagai calon <span class="text-yellow-500 font-bold border-b border-yellow-500/30">Kepala Peneliti</span>, saya berdedikasi menyatukan kecerdasan buatan dengan efisiensi energi terbarukan demi masa depan yang berkelanjutan."
+                    </p>
+
+                    <div class="mt-10 flex items-center gap-6 relative z-10">
+                        <div class="flex -space-x-3">
+                            <div class="w-10 h-10 rounded-full border border-yellow-500/50 bg-black flex items-center justify-center text-[8px] font-bold text-yellow-500 shadow-[0_0_10px_rgba(255,215,0,0.3)]">AI</div>
+                            <div class="w-10 h-10 rounded-full border border-magenta-500/50 bg-black flex items-center justify-center text-[8px] font-bold text-magenta-500">PV</div>
+                            <div class="w-10 h-10 rounded-full border border-white/50 bg-black flex items-center justify-center text-[8px] font-bold text-white">RD</div>
+                        </div>
+                        <div class="flex-1 h-[1px] bg-gradient-to-r from-yellow-500/20 to-transparent"></div>
+                        <span class="text-[8px] font-mono text-white/30 uppercase tracking-[0.2em] flex items-center gap-2">
+                            <span class="w-1 h-1 bg-yellow-500 rounded-full"></span> Sync_Status: 100%
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Actions -->
+                <div class="flex flex-col sm:flex-row gap-6 items-center relative z-10">
+                    <a href="cv.html" class="w-full sm:w-auto px-10 py-5 bg-yellow-500 text-black font-bold uppercase text-[10px] tracking-[0.3em] hover:bg-white transition-all duration-300 flex items-center justify-center gap-3 group/btn relative overflow-hidden shadow-[0_0_20px_rgba(255,215,0,0.2)]">
+                        <span class="relative z-10">View Dossier</span>
+                        <div class="absolute inset-0 bg-white translate-y-full group-hover/btn:translate-y-0 transition-transform"></div>
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" class="relative z-10 group-hover/btn:translate-x-2 transition-transform"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </a>
+                    <div class="flex items-center gap-3 opacity-40 hover:opacity-100 transition duration-300 cursor-default">
+                        <div class="w-10 h-[1px] bg-white"></div>
+                        <span class="text-[9px] text-white uppercase tracking-widest font-mono">Archive_Ref: FCA-2024-X</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scroll Indicator -->
+        <div class="mt-20 flex flex-col items-center gap-4 opacity-30 group cursor-pointer">
+            <div class="w-[1px] h-24 bg-gradient-to-b from-yellow-500 to-transparent group-hover:h-32 transition-all duration-500"></div>
+            <span class="text-[8px] font-mono uppercase tracking-[0.5em] vertical-text group-hover:tracking-[1em] transition-all text-yellow-500">Explore_Layers</span>
+        </div>
+    </section>
+
+    <!-- Bottom Status Bar -->
+    <div class="fixed bottom-0 w-full z-50 px-8 py-3 bg-black/90 backdrop-blur-xl border-t border-yellow-500/10 flex justify-between items-center text-[8px] font-mono uppercase tracking-widest overflow-hidden">
+        <div class="flex items-center gap-10">
+            <div class="flex items-center gap-2">
+                <span class="text-yellow-500/50">Core:</span>
+                <span class="text-yellow-500 drop-shadow-[0_0_5px_rgba(255,215,0,0.8)]">Active</span>
+            </div>
+            <div class="hidden lg:flex items-center gap-2">
+                <span class="text-yellow-500/50">Uptime:</span>
+                <span class="text-white">99.99%</span>
+            </div>
+        </div>
+        
+        <!-- Marquee Info -->
+        <div class="flex-1 mx-20 whitespace-nowrap overflow-hidden hidden md:block opacity-30 italic">
+            <div class="inline-block animate-marquee text-yellow-500">
+                RESEARCHING_PHOTOVOLTAIC_INTEGRATION_WITH_NEURAL_NETWORKS... SENSORS_SYNCED... LITHIUM_PREDICTION_READY... SYSTEM_NOMINAL...
+            </div>
+        </div>
+
+        <div class="flex items-center gap-4">
+            <span class="text-magenta-500 animate-pulse">Syncing...</span>
+            <div class="w-2 h-2 rounded-full bg-green-500 shadow-[0_0_8px_#22c55e]"></div>
+        </div>
+    </div>
+
+    <script>
+        // Neural Network Particle System
+        const canvas = document.getElementById('particles-js');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        const connectionDistance = 120; // Jarak untuk menghubungkan partikel
+
+        function init() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            particles = [];
+            let numParticles = window.innerWidth < 768 ? 30 : 60; // Kurangi di mobile
+            for(let i = 0; i < numParticles; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    size: Math.random() * 2 + 0.5,
+                    speedX: Math.random() * 0.4 - 0.2,
+                    speedY: Math.random() * 0.4 - 0.2,
+                    opacity: Math.random() * 0.8 + 0.2
+                });
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Update and draw particles
+            for(let i = 0; i < particles.length; i++) {
+                let p = particles[i];
+                p.x += p.speedX;
+                p.y += p.speedY;
+                
+                // Bounce edges
+                if(p.x < 0 || p.x > canvas.width) p.speedX *= -1;
+                if(p.y < 0 || p.y > canvas.height) p.speedY *= -1;
+                
+                ctx.fillStyle = `rgba(255, 215, 0, ${p.opacity})`;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Draw Neural Connections
+                for(let j = i + 1; j < particles.length; j++) {
+                    let p2 = particles[j];
+                    let dx = p.x - p2.x;
+                    let dy = p.y - p2.y;
+                    let distance = Math.sqrt(dx * dx + dy * dy);
+
+                    if(distance < connectionDistance) {
+                        ctx.beginPath();
+                        ctx.strokeStyle = `rgba(255, 215, 0, ${0.15 - (distance/connectionDistance) * 0.15})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.moveTo(p.x, p.y);
+                        ctx.lineTo(p2.x, p2.y);
+                        ctx.stroke();
+                    }
+                }
+            }
+            requestAnimationFrame(animate);
+        }
+
+        init();
+        animate();
+        window.addEventListener('resize', init);
+    </script>
+
+    <style>
+        @keyframes marquee { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+        .animate-marquee { animation: marquee 30s linear infinite; }
+    </style>
+</body>
+</html>
